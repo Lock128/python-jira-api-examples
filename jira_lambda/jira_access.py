@@ -3,6 +3,7 @@ import json
 import base64
 import logging
 import requests
+import boto3
 from http import HTTPStatus
 from json.decoder import JSONDecodeError
 from requests.exceptions import RequestException
@@ -16,8 +17,8 @@ def handler(event, context):
     global JIRA_HEADERS
     # GET Basic authrization token
     basic_auth_token_jira = base64_encode(
-        "johannes.koch@gmail.com",
-        "C1Xiehv1tAcQWlVv9RJD4404"
+        read_secret("/tool/jira/user"),
+        read_secret("/tool/jira/token")
     )
     # Update headers
     JIRA_HEADERS["Authorization"] = f"Basic {basic_auth_token_jira}"
@@ -29,6 +30,13 @@ def handler(event, context):
         },
         'body': 'Hello, CDK! You have hit {}\n'.format(event['path'])
     }
+
+def read_secret(secret_name):
+    logger.info(f"Reading secret from parameter store: {secret_name}")
+    ssm = boto3.client('ssm')
+    parameter = ssm.get_parameter(Name=secret_name, WithDecryption=True)
+    logger.info(f"Finished reading secret from parameter store: {len(parameter)}")
+    return parameter['Parameter']['Value']
 
 def check_all_jira_issues(project_key, server, query=None):
 
