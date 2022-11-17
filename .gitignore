@@ -1,17 +1,13 @@
-<<<<<<< HEAD
 *.swp
 package-lock.json
 .pytest_cache
 *.egg-info
 
-=======
->>>>>>> 091f4eb3bf1f1c35f3f1d6f67561d90f5e875a96
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 
-<<<<<<< HEAD
 =======
 # C extensions
 *.so
@@ -111,7 +107,6 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
->>>>>>> 091f4eb3bf1f1c35f3f1d6f67561d90f5e875a96
 # Environments
 .env
 .venv
@@ -121,7 +116,6 @@ ENV/
 env.bak/
 venv.bak/
 
-<<<<<<< HEAD
 # CDK Context & Staging files
 .cdk.staging/
 cdk.out/
@@ -143,4 +137,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
->>>>>>> 091f4eb3bf1f1c35f3f1d6f67561d90f5e875a96
