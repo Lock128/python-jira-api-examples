@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 # Welcome to your CDK Python project!
 
@@ -63,3 +64,7 @@ command.
  * `cdk docs`        open CDK documentation
 
 Enjoy!
+=======
+# python-jira-api-examples
+This repository has a few examples on how to interact with the JIRA REST API
+>>>>>>> 091f4eb3bf1f1c35f3f1d6f67561d90f5e875a96
