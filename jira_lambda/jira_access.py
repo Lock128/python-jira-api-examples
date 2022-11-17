@@ -22,7 +22,7 @@ def handler(event, context):
     )
     # Update headers
     JIRA_HEADERS["Authorization"] = f"Basic {basic_auth_token_jira}"
-    check_all_jira_issues(event["project_key"], "https://lockhead.atlassian.net/")
+    get_all_jira_issues(event["project_key"], "https://lockhead.atlassian.net/")
     return {
         'statusCode': 200,
         'headers': {
@@ -38,7 +38,7 @@ def read_secret(secret_name):
     logger.info(f"Finished reading secret from parameter store: {len(parameter)}")
     return parameter['Parameter']['Value']
 
-def check_all_jira_issues(project_key, server, query=None):
+def get_all_jira_issues(project_key, server, query=None):
 
     start_at = 0
     max_results = 250
@@ -84,7 +84,8 @@ def check_all_jira_issues(project_key, server, query=None):
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         for issue in selectedIssues:
             writer.writerow(issue)
-    return "xxx"
+    logger.info("data retrieved succesfully")
+    return selectedIssues
 
 
 def base64_encode(username: str, password: str):
