@@ -16,27 +16,32 @@ class PythonJiraApiExampleStack(Stack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        queue = sqs.Queue(
-            self, "PythonJiraApiExampleQueue",
-            visibility_timeout=Duration.seconds(300),
-        )
-
-        topic = sns.Topic(
-            self, "PythonJiraApiExampleTopic"
-        )
-
-        topic.add_subscription(subs.SqsSubscription(queue))
         # Defines an AWS Lambda resource
-        my_lambda = _lambda.Function(
+        jira_access = _lambda.Function(
             self, 'JiraAccessHandler',
             runtime=_lambda.Runtime.PYTHON_3_7,
             code=_lambda.Code.from_asset('jira_lambda'),
             handler='jira_access.handler',
         )
 
-        fn_url = my_lambda.add_function_url()
+        fn_url = jira_access.add_function_url()
         CfnOutput(
             scope=self,
-            id="funcURLOutput",
-            value=fn_url.to_string(),
+            id="jiraAccessUrl",
+            value=fn_url.url,
+        )
+
+        # Defines an AWS Lambda resource
+        jira_webhook = _lambda.Function(
+            self, 'JiraWebhookHandler',
+            runtime=_lambda.Runtime.PYTHON_3_7,
+            code=_lambda.Code.from_asset('jira_lambda'),
+            handler='jira_webhook.handler',
+        )
+
+        fn_url2 = jira_webhook.add_function_url()
+        CfnOutput(
+            scope=self,
+            id="jiraWebhookUrl",
+            value=fn_url2.url,
         )
