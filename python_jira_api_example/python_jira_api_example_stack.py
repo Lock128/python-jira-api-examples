@@ -39,7 +39,7 @@ class PythonJiraApiExampleStack(Stack):
             handler='jira_webhook.handler',
         )
 
-        fn_url2 = jira_webhook.add_function_url()
+        fn_url2 = jira_webhook.add_function_url(auth_type=_lambda.FunctionUrlAuthType.NONE)
         CfnOutput(
             scope=self,
             id="jiraWebhookUrl",
